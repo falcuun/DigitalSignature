@@ -58,12 +58,13 @@ public class Alice {
                 System.out.println("Private key is: " + priv.toString() + " Public key is: " + pub.toString());
 
 
-                /* Create a Signature object and initialize it with the private key */
+                /* Pravljenje Potpisa i inicijalizacija istog sa privatnim kljucem
+                    Koriscenje "SHA1" algoritma                */
                 Signature dsa = Signature.getInstance("SHA1withDSA", "SUN");
 
                 dsa.initSign(priv);
 
-                /* Update and sign the data */
+                /* Azuriranje i potpisivanje podataka */
                 FileInputStream fis = new FileInputStream(f);
                 BufferedInputStream bufin = new BufferedInputStream(fis);
                 byte[] buffer = new byte[1024];
@@ -75,18 +76,17 @@ public class Alice {
 
                 bufin.close();
 
-                /* Now that all the data to be signed has been read in, 
-                    generate a signature for it */
+                /* Generisanje potpisa nakon upisivanja podataka */
                 byte[] realSig = dsa.sign();
 
-                /* Save the signature in a file */
+                /* Cuvanje potpisa u fajl */
                 FileOutputStream sigfos = new FileOutputStream("Signature");
                 sigfos.write(realSig);
 
                 sigfos.close();
 
 
-                /* Save the public key in a file */
+                /* Cuvanje javnog kljuca u Fajl */
                 byte[] key = pub.getEncoded();
                 FileOutputStream keyfos = new FileOutputStream("PublicKey");
                 keyfos.write(key);
