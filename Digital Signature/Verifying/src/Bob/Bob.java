@@ -38,9 +38,7 @@ public class Bob {
 
     public void verify() {
 
-        // publickKey = new File("suepk");
-        // signature = new File("sig");
-        // data = new File("data");
+        
         if (publickKey == null) {
             JOptionPane.showMessageDialog(null, "You didn't select a public key File!");
         } else if (signature == null) {
@@ -49,6 +47,8 @@ public class Bob {
             JOptionPane.showMessageDialog(null, "You didn't select a data File!");
         } else {
             try {
+                
+                /* Importovanje enkodovanog javnog kluca */ 
                 FileInputStream keyfis = new FileInputStream(publickKey);
                 byte[] encKey = new byte[keyfis.available()];
                 keyfis.read(encKey);
@@ -58,16 +58,19 @@ public class Bob {
                 X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(encKey);
                 KeyFactory keyFactory = KeyFactory.getInstance("DSA", "SUN");
                 PublicKey pubKey = keyFactory.generatePublic(pubKeySpec);
-
+                    
+                
+                /* Input bajtova potpisa */
                 FileInputStream sigfis = new FileInputStream(signature);
                 byte[] sigToVerify = new byte[sigfis.available()];
                 sigfis.read(sigToVerify);
                 sigfis.close();
-
+                              
+                /* Kreiranje Potpisa i inicijalizacije istog sa javnim kljucem */ 
                 Signature sig = Signature.getInstance("SHA1withDSA", "SUN");
-
                 sig.initVerify(pubKey);
-
+                
+                /* Azuriranje i verifikacija podataka */
                 FileInputStream datafis = new FileInputStream(data);
                 BufferedInputStream bufin = new BufferedInputStream(datafis);
 
@@ -91,7 +94,7 @@ public class Bob {
                     JOptionPane.showMessageDialog(null, "The File was tampered with!");
                 }
 
-                // System.out.println("signature verifies: " + verifies);
+                
             } catch (Exception e) {
                 System.err.println("Caught exception " + e.toString());
             }
