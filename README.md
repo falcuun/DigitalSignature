@@ -8,3 +8,4 @@
     
     - User Verifying the file (Bob) chooses file to verify and chooses Public key file that came with it.
     - The Program then uses the set of keys and decrypting algorithm to veryfy the integrity of the file.
+  
